@@ -1,0 +1,32 @@
+{
+  "name": "certifomatic",
+  "version": "0.1",
+  "homepage": "https://github.com/cpilko/certifomatic",
+  "authors": [
+    "Chris Pilko <chris.pilko@gmail.com>"
+  ],
+  "description": "An HTML5 experiment to create print-ready certificates and name bages.",
+  "main": "index.html",
+  "keywords": [
+    "print"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+      "papaparse": "latest",
+      "ember": "~1.9"
+  },
+  "preen": {
+      "papaparse": ["papaparse.*"],
+      "jquery": ["dist/*.*"],
+      "handlebars": ["handlebars.js", "handlebars.min.js"],
+      "ember": ["ember.*"]
+  }
+}
