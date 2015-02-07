@@ -21,7 +21,8 @@
   ],
   "dependencies": {
       "papaparse": "latest",
-      "ember": "~1.9"
+      "ember": "~1.9",
+      "pure": "latest"
   },
   "preen": {
       "papaparse": ["papaparse.*"],
