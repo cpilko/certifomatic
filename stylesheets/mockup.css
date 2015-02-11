@@ -1,0 +1,90 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 10, 2015, 10:40:44 AM
+    Author     : Chris
+*/
+
+@media screen {
+    
+}
+
+@media print {
+    .noprint {
+        display: none;
+        font-size: 0;
+    }
+    
+    style {
+        font-size: 0;
+    }
+    
+    .page {
+        page-break-inside: avoid;
+        page-break-before: always;
+    }
+    
+    .page:first-of-type {
+        page-break-before: avoid;
+    }
+}
+
+@page {
+    size: letter landscape;
+    margin: 0.1in;
+}
+
+.page {
+    width: 10.8in;
+    height: 8in;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+body {
+    margin: 2em;
+}
+
+#site-header, #site-footer {
+    text-align: center;
+}
+
+#top-menu-panel h1 {
+    display: inline;
+    font-weight: normal;
+    font-size: 100%;
+    text-align: left;
+}
+
+#top-menu-panel a {
+    text-align: right;
+}
+
+.button-secondary {
+    background-color: lightblue;
+}
+
+#data-paste {
+    font-family: "Consolas","Lucida Console", Monaco, monospace;
+    font-size: 90%;
+    white-space: pre;
+    word-wrap: normal;
+    overflow: scroll;
+}
+
+#pdf-controls {
+    margin-bottom: 1em;
+}
+
+#pdf-output {
+    width: 90%;
+    height: 50em;
+}
+
+.hidden {
+    visibility: hidden;
+}
+

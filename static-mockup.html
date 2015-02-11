@@ -4,16 +4,139 @@
         <title>Certifomatic Static Mockup</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--stylesheets-->
         <link rel="stylesheet" type="text/css" href="bower_components/pure/pure-min.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/mockup.css">
+        <!--scripts-->
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/papaparse/papaparse.min.js"></script>
+        <script type="text/javascript" src="bower_components/handlebars/handlebars.js"></script>
+        <script type="text/javascript" src="bower_components/moment/moment.js"></script>
     </head>
     <body>
-        <div id="layout">
-            <div id="controls">
-                <h1>Here Be Controls</h1>
-            </div>
-            <div id="results">
-                <h1>Here Be Results</h1>
-            </div>
-        </div>
+        <header id="site-header" class="noprint">
+            <hgroup>
+                <h1>Certifomatic</h1>
+                <h2>Automatic Printables Generator for the People</h2>
+            </hgroup>
+        </header>
+        <section id="top-menu-panel" class="noprint">
+            <nav>
+                <h1>Menu</h1>
+                <a href="#">EDIT</a>
+            </nav>
+        </section>
+        <section id="form-panel" class="noprint">
+            <hgroup id="form-title">
+                <h1>Cub Scout Pocket Certificates</h1>
+            </hgroup>
+            <form id="data-input" class="pure-form pure-form-stacked">
+                <fieldset>
+                    <legend>Step 1: Input your data</legend>
+                    <label for="data-upload">Upload a CSV file of your advancements.</label>
+                    <input type="file" name="data-upload" id="data-upload">
+                    <label>or</label>
+                    <label for="data-paste">Copy then paste your data here from your spreadsheet program</label>
+                    <textarea name="data-paste" id="data-paste" cols=100 rows=10 wrap="soft" placeholder="First Name, Last Name, Den Number, Den Leader Name, Award Type, Award Name, Award Date"></textarea>                
+                    <a href="#" class="pure-button button-secondary">Download a sample file</a>
+                    <a href='#result-html' id="data-input-submit" class="pure-button pure-button-primary">Next &gt;</a>
+                </fieldset>
+            </form>
+        </section>
+        <section id="result-html">
+        </section>
+        <section id="controls" class="noprint">
+            <a href="#" id="print-button" class="pure-button pure-button-primary hidden">Print</a>
+        </section>
+        <footer id="site-footer" class="noprint">
+            <p>Fork me on <a href="http://cpilko.github.com/certifomatic">GitHub</a></p>
+        </footer>
+        <script type="text/javascript">
+            $(document).ready( function() {
+                $('#data-input-submit').click(function() {
+                    //PapaParse Data
+                    var csv_data = $('#data-paste').val().trim();
+                    var csv_result = Papa.parse (csv_data, { header: true, dynamicTyping: true});
+                    //strip spaces out of the json keys
+                    $.each(csv_result.data, function(i, obj){
+                        $.each(obj, function(old_key, val) {
+                            new_key = old_key.replace(/\s+/g, '');
+                            if (old_key !== new_key) {
+                                obj[new_key] = val;
+                                delete obj[old_key];
+                            }
+                        });
+                    });
+                    console.log(csv_result);
+                    //Merge the data with a Handlebars Template
+                    var hbs_out = render('CsPocketCert', csv_result);
+                    //console.log(hbs_out);
+                    $('#result-html').html(hbs_out);
+                    $('#print-button').removeClass('hidden');
+                });
+                
+                $('#print-button').click( function(){
+                    window.print();
+                });
+            });
+            
+            // Handlebars custom render function
+            // source: http://javascriptissexy.com/handlebars-js-tutorial-learn-everything-about-handlebars-js-javascript-templating/ ​
+            function render(tmpl_name, tmpl_data) {
+                if ( !render.tmpl_cache ) { 
+                    render.tmpl_cache = {};
+                }
+
+                if ( ! render.tmpl_cache[tmpl_name] ) {
+                    var tmpl_dir = 'cert_templates';
+                    var tmpl_url = tmpl_dir + '/' + tmpl_name + '.hbs';
+
+                    var tmpl_string;
+                    $.ajax({
+                        url: tmpl_url,
+                        method: 'GET',
+                        async: false,
+                        success: function(data) {
+                            tmpl_string = data;
+                        }
+                    });
+
+                    render.tmpl_cache[tmpl_name] = Handlebars.compile(tmpl_string);
+                }
+                return render.tmpl_cache[tmpl_name](tmpl_data);
+            }
+
+            //Handlebars #grouped_each helper
+            //source: http://funkjedi.com/technology/412-every-nth-item-in-handlebars/
+            Handlebars.registerHelper('grouped_each', function(every, context, options) {
+                var out = "", subcontext = [], i;
+                if (context && context.length > 0) {
+                    for (i = 0; i < context.length; i++) {
+                        if (i > 0 && i % every === 0) {
+                            out += options.fn(subcontext);
+                            subcontext = [];
+                        }
+                        subcontext.push(context[i]);
+                    }
+                    out += options.fn(subcontext);
+                }
+                return out;
+            });
+            
+            //Handlebars Date Format Helper
+            //source: https://gist.github.com/elidupuis/1468937
+            //  format an ISO date using Moment.js
+            //  http://momentjs.com/
+            //  moment syntax example: moment(Date("2011-07-18T15:50:52")).format("MMMM YYYY")
+            //  usage: {{dateFormat creation_date format="MMMM YYYY"}}
+            Handlebars.registerHelper('dateFormat', function(context, block) {
+              if (window.moment) {
+                var f = block.hash.format || "MMM Do, YYYY";
+                return moment(context).format(f);
+              }else{
+                return context;   //  moment plugin not available. return data as is.
+              };
+            });
+        </script>
     </body>
 </html>

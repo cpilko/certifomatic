@@ -21,13 +21,17 @@
   ],
   "dependencies": {
       "papaparse": "latest",
-      "ember": "~1.9",
-      "pure": "latest"
+      "ember": "~1.10",
+      "pure": "latest",
+      "handlebars": "~3.0",
+      "moment": "latest"
   },
   "preen": {
       "papaparse": ["papaparse.*"],
       "jquery": ["dist/*.*"],
       "handlebars": ["handlebars.js", "handlebars.min.js"],
-      "ember": ["ember.*"]
+      "ember": ["*.js"],
+      "pure": ["pure*.css"],
+      "moment": ["*.js", "min/*.js"]
   }
 }
