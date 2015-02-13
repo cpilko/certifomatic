@@ -17,29 +17,60 @@
         <header id="site-header" class="noprint">
             <hgroup>
                 <h1>Certifomatic</h1>
-                <h2>Automatic Printables Generator for the People</h2>
+                <h2>Printables for the People</h2>
             </hgroup>
         </header>
         <section id="top-menu-panel" class="noprint">
-            <nav>
-                <h1>Menu</h1>
-                <a href="#">EDIT</a>
+            <nav class="pure-menu pure-menu-open pure-menu-horizontal">
+                <ul>
+                    <li><a href="https://github.com/cpilko/certifomatic/">About</a></li>
+                    <li><a href="https://github.com/cpilko/certifomatic/issues">Support</a></li>
+                    <li><a href="#data-input">Jump to Edits</a></li>
+                    <li><a href="#result-html">Jump to Results</a></li>
+                </ul>
             </nav>
         </section>
         <section id="form-panel" class="noprint">
             <hgroup id="form-title">
                 <h1>Cub Scout Pocket Certificates</h1>
             </hgroup>
+            <section id="about-certifomatic" class="noprint">
+                <p>This is an experiment to create printable certificates using only
+                client-side technologies. Personally, I get writers cramp after a few hours
+                of filling out advancement cards for my Pack. Since it is B&amp;G season,
+                It's time to get this out for everyone to try.
+                </p>
+                <p>This webapp is compatible with a Purchase Order CSV export from 
+                <a href='http://scoutbook.com/'>Scoutbook</a>. Open it, add &quot;Pack Number&quot;,
+                &quot;Cubmaster&quot; and &quot;Den Leader&quot; columns, and you should be good to go.
+                If you don&apos;t, you&quot;ll get lines you can sign by hand. Extra columns will be ignored.
+                </p>
+                <p>We'll call this an early alpha release. It&apos;s <em>very</em> rough
+                around the edges, but it might be of use to you, so we're releasing it now.
+                If you'd like to help improve this, all code is on <a href="https://github.com/cpilko/certifomatic/">GitHub</a>.
+                Please fork away to your heart's content. 
+                </p>
+                <p><strong>Note:</strong> Since this is an early-stage project, it
+                <u><em>WILL NOT</em></u> work in anything but the latest browsers. 
+                <a href="https://www.google.com/intl/en/chrome/browser/desktop/index.html">Google Chrome</a>
+                is my development browser, so things should work the best there. Mozilla Firefox is
+                a close second.
+                </p>
+                <p>Good luck, and I hope this helps you!
+                </p>
+            </section>
             <form id="data-input" class="pure-form pure-form-stacked">
                 <fieldset>
-                    <legend>Step 1: Input your data</legend>
-                    <label for="data-upload">Upload a CSV file of your advancements.</label>
+                    <legend>Input your data</legend>
+                    <label for="data-upload">Upload a CSV file of your advancements</label>
                     <input type="file" name="data-upload" id="data-upload">
-                    <label>or</label>
+                    <label>- or -</label>
                     <label for="data-paste">Copy then paste your data here from your spreadsheet program</label>
-                    <textarea name="data-paste" id="data-paste" cols=100 rows=10 wrap="soft" placeholder="First Name, Last Name, Den Number, Den Leader Name, Award Type, Award Name, Award Date"></textarea>                
-                    <a href="#" class="pure-button button-secondary">Download a sample file</a>
-                    <a href='#result-html' id="data-input-submit" class="pure-button pure-button-primary">Next &gt;</a>
+                    <textarea name="data-paste" id="data-paste" cols=100 rows=10 wrap="soft" 
+                              placeholder="First Name, Last Name, Item Name, SKU, Den Number, Date Earned, Pack Number, Cubmaster, Den Leader">
+                    </textarea>                
+                    <a href="ref/mockup_advancement.csv" download class="pure-button button-secondary">Download a sample file</a>
+                    <a href='#result-html' id="data-input-submit" class="pure-button pure-button-primary">Go &gt;</a>
                 </fieldset>
             </form>
         </section>
@@ -54,9 +85,12 @@
         <script type="text/javascript">
             $(document).ready( function() {
                 $('#data-input-submit').click(function() {
+                    //Todo: Implement file upload
+                    //Todo: Data exists and is valid
                     //PapaParse Data
                     var csv_data = $('#data-paste').val().trim();
                     var csv_result = Papa.parse (csv_data, { header: true, dynamicTyping: true});
+                    //Todo: PapaParse error handler
                     //strip spaces out of the json keys
                     $.each(csv_result.data, function(i, obj){
                         $.each(obj, function(old_key, val) {
@@ -72,6 +106,7 @@
                     var hbs_out = render('CsPocketCert', csv_result);
                     //console.log(hbs_out);
                     $('#result-html').html(hbs_out);
+                    //TODO: Look for elements that overflow and resize them.
                     $('#print-button').removeClass('hidden');
                 });
                 

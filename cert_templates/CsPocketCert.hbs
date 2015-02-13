@@ -1,36 +1,46 @@
 <style>
+    @import url(http://fonts.googleapis.com/css?family=Homemade+Apple);
+    
     @page {
         size: letter landscape;
     }
     
     .certificate {
-        width: 2.3in;
+        width: 1.65in;
         height: 3.55in;
-        padding: 0.1in;
+        padding: 0.1in 0.1in 0.1in 0.75in;
         font-family: "Verdana", sans-serif;
         font-size: 6pt;
         text-align: center;
         overflow: hidden;
         float: left;
         border: 1px dotted black;
+        position: relative;
+        vertical-align: top;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    
+    .certificate-content {
+        width: 1.65in;
     }
     
     .award-img {
-        margin-top: 0.1in;
         display: block;
         max-height: 1.25in;
-        max-width: 2.0in;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 1.65in;
+        margin: auto;
     }
     
-    .recipient, .award, .unit, .date {
-        font-size: 150%;
+    .recipient-name, .award, .unit, .date {
+        font-size: 130%;
         font-weight: bold;
         margin-top: 0.05in;
     }
     
-    .recipient {
+    .recipient-name {
         font-size: 250%;
     }
     
@@ -38,17 +48,44 @@
         margin-top: 0.05in;
     }
     
-    .sig-block .sig {
+    .sig-block .sig-name {
         font-size: 175%;
         font-weight: bold;
-        font-family: "Segoe Script", courier;
+        font-family: 'Homemade Apple', cursive;
+        width: 100%;
+        border-bottom: 1px solid black;
+    }
+    
+    .sig-name {
+        min-height: 1.75em;
     }
     
     .sig-block p {
         margin: 0.2em;
     }
     
+    .vertical-sidebar {
+        position: absolute;
+        bottom: 0px;
+        left: 0.625in;
+        width: 3.75in;
+        height: 0.625in;
+        background-color: #003F87;
+        overflow: hidden;
+        transform: rotate(-90deg); 
+        transform-origin: bottom left;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
     
+    .vertical-sidebar p {
+        color: #FCD116;
+        margin-left: 0.25in;
+        font-size: 400%;
+        display: block;
+    }
 </style> 
 {{#if data}} 
 {{#grouped_each 8 data}}
@@ -60,22 +97,27 @@
         {{else}}
             <img class="award-img" src="ref/CubScout_4K.gif">
         {{/if}}
-        <div class="recipient">{{FirstName}} {{LastName}}</div>
-        <div class="in">a Scout Registered to</div>
-        <div class="unit">Pack {{PackNumber}}{{#if DenNumber}}, Den {{DenNumber}}{{/if}}</div>
-        <div class="earned">earned the</div>
-        <div class="award">{{ItemName}}</div>
-        <div class="on">on</div>
-        <div class="date">{{dateFormat DateEarned format="MMMM Do, YYYY"}}</div>
-        <div class="cm sig-block">
-            <p class="sig">{{Cubmaster}}</p>
-            <p class="title">Cubmaster</p>
+        <div class="certificate-content">
+            <div class="recipient-name">{{FirstName}} {{LastName}}</div>
+            <div class="in">a Scout Registered to</div>
+            <div class="unit">Pack {{PackNumber}}{{#if DenNumber}}, Den {{DenNumber}}{{/if}}</div>
+            <div class="earned">earned the</div>
+            <div class="award">{{ItemName}}</div>
+            <div class="on">on</div>
+            <div class="date">{{dateFormat DateEarned format="MMMM Do, YYYY"}}</div>
+            <div class="cm sig-block">
+                <p class="sig-name">{{Cubmaster}}</p>
+                <p class="title">Cubmaster</p>
+            </div>
+            <div class="dl sig-block">
+                <p class="sig-name">{{DenLeader}}</p>
+                <p class="title">Den Leader</p>
+            </div>
+        </div> <!--certificate-content-->
+        <div class="vertical-sidebar">
+            <p class="vertical-name">CUB SCOUT</p>
         </div>
-        <div class="dl sig-block">
-            <p class="sig">{{DenLeader}}</p>
-            <p class="title">Den Leader</p>
-        </div>
-    </section>
+    </section> <!--certificate-->
     {{/each}}
 </section>
 {{/grouped_each}}

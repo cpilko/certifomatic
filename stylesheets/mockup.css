@@ -34,7 +34,7 @@ and open the template in the editor.
 
 @page {
     size: letter landscape;
-    margin: 0.1in;
+    margin: 0.2in;
 }
 
 .page {
@@ -52,15 +52,22 @@ body {
     text-align: center;
 }
 
-#top-menu-panel h1 {
-    display: inline;
-    font-weight: normal;
-    font-size: 100%;
-    text-align: left;
+#top-menu-panel {
+    position: sticky;
+    top: 0;
 }
 
-#top-menu-panel a {
-    text-align: right;
+#data-input {
+    padding: 15px;
+    background-color: #ccc;
+    border: 0.5px dotted #555;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#data-input legend {
+    font-size: 200%;
+    font-weight: bold;
 }
 
 .button-secondary {
@@ -73,6 +80,8 @@ body {
     white-space: pre;
     word-wrap: normal;
     overflow: scroll;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #pdf-controls {
