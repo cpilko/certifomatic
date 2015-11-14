@@ -9,7 +9,9 @@ and open the template in the editor.
 */
 
 @media screen {
-    
+  body {
+    margin: 2em;
+  }    
 }
 
 @media print {
@@ -42,10 +44,6 @@ and open the template in the editor.
     height: 8in;
     background-color: #fff;
     overflow: hidden;
-}
-
-body {
-    margin: 2em;
 }
 
 #site-header, #site-footer {
