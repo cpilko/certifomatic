@@ -44,6 +44,7 @@ and open the template in the editor.
     height: 8in;
     background-color: #fff;
     overflow: hidden;
+    margin-top: .5in;
 }
 
 #site-header, #site-footer {
